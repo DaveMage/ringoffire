@@ -1,12 +1,17 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common'; // test
 import { Game } from '../../models/game'; // import game.ts
+import { PlayerComponent } from '../player/player.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, PlayerComponent, MatButtonModule, MatIconModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.scss'
 })
@@ -14,10 +19,10 @@ import { Game } from '../../models/game'; // import game.ts
 export class GameComponent {
 
   pickCardAnimation = false;
-  currentCard: string  = '';
+  currentCard: string = '';
   game!: Game; // Definitive Zuweisung, da wir das Objekt in ngOnInit() initialisieren
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.newGame(); // this.newGame() wird aufgerufen, sobald die Komponente erstellt wird.
@@ -42,4 +47,14 @@ export class GameComponent {
       }, 1000);
     }
   }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogAddPlayerComponent); // component erstellt und eingebunden
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+
+  }
+
 }

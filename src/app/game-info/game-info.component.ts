@@ -1,6 +1,6 @@
 import { Component, OnChanges, OnInit, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-game-info',
@@ -24,11 +24,12 @@ export class GameInfoComponent implements OnInit, OnChanges {
     { titel: 'Quizmaster', description: '' },
     { titel: 'Never have i ever...', description: 'say something you never did. Everyone who did it has to drink.' },
     { titel: 'Rule', description: 'Make a rule. Everyone needs to drink when he breaks the rule.' },
-];
+  ];
 
   titel = '';
   description = '';
-  @Input() card: string|undefined; // musste undefined hinzufügen, da es sonst einen fehler gibt, weil am anfang kein wert (Karte) vorhanden ist.
+
+  @Input() card: string = ''; // musste undefined hinzufügen, da es sonst einen fehler gibt, weil am anfang kein wert (Karte) vorhanden ist.
 
   constructor() { }
 
@@ -37,10 +38,12 @@ export class GameInfoComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    console.log('current card', this.card);
-    console.log('current number is', this.card?.split('_')[1]); // split() teilt den string in ein array auf. In diesem Fall wird der string bei jedem _ geteilt. Mit [1] wird das zweite Element des Arrays ausgegeben.
-    let cardNumber = +this.card.split('_')[1]; // + wandelt den string in eine Zahl um.
-    this.titel = this.cardAction[cardNumber - 1].titel;
-    this.description = this.cardAction[cardNumber - 1].description;
+    if (this.card) {
+      console.log('current card', this.card);
+      console.log('current number is', this.card.split('_')[1]); // split() teilt den string in ein array auf. In diesem Fall wird der string bei jedem _ geteilt. Mit [1] wird das zweite Element des Arrays ausgegeben.
+      let cardNumber = +this.card.split('_')[1]; // + wandelt den string in eine Zahl um.
+      this.titel = this.cardAction[cardNumber - 1].titel; // -1, weil das Array bei 0 anfängt.
+      this.description = this.cardAction[cardNumber - 1].description;
+    }
   }
 }

@@ -27,12 +27,12 @@ export class GameComponent {
 
   pickCardAnimation = false;
   currentCard: string = '';
-  game!: Game; // Definitive Zuweisung, da wir das Objekt in ngOnInit() initialisieren
+  game: Game = new Game(); // Definitive Zuweisung, da wir das Objekt in ngOnInit() initialisieren
 
   constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.newGame(); // this.newGame() wird aufgerufen, sobald die Komponente erstellt wird.
+    // this.newGame(); // this.newGame() wird aufgerufen, sobald die Komponente erstellt wird.
   }
 
   newGame() {
@@ -48,6 +48,9 @@ export class GameComponent {
       this.pickCardAnimation = true;
       console.log(this.game);   // gibt das leere Json objekt in der Konsole aus.
 
+      this.game.currentPlayer++;
+      this.game.currentPlayer = this.game.currentPlayer % this.game.players.length;
+
       setTimeout(() => { // setzt die animation auf false, nachdem die Karte gezogen wurde.
         this.game.playedCards.push(this.currentCard);
         this.pickCardAnimation = false;
@@ -59,7 +62,9 @@ export class GameComponent {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent); // component erstellt und eingebunden
 
     dialogRef.afterClosed().subscribe(name => {
-      this.game.players.push(name);
+      if (name && name.length > 0) {    // erst überprüfen ob die variable existiert und dann ob sie länger als 0 ist.
+        this.game.players.push(name);
+      }
     });
 
   }

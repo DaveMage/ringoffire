@@ -1,4 +1,9 @@
 <mat-card appearance="outlined">
-    <mat-card-title>Titel</mat-card-title>
-    <mat-card-content>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime magni itaque ut, cumque quas velit ipsam nisi, placeat voluptates similique officia sed fugit enim nobis quos voluptatem voluptas aspernatur distinctio!</mat-card-content>    
-  </mat-card>
+
+  <mat-card-title>{{ card ? titel : 'please pick a card' }}</mat-card-title> <!-- if abfrage wenn card true dann titel else string -->
+
+  <mat-card-content>
+    {{ card ? description : 'click on the card stack to select the next card' }}
+  </mat-card-content>
+
+</mat-card>

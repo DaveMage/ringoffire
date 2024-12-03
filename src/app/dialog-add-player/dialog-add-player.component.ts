@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, inject, model, signal} from '@angula
 import {FormsModule} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {
+  MatDialog,
   // MAT_DIALOG_DATA,
   // MatDialog,
   MatDialogActions,
@@ -39,6 +40,7 @@ export class DialogAddPlayerComponent {
   // name!: string;
   name: string = '';
 
+   constructor() { }
 
   onNoClick(): void {
     this.dialogRef.close();

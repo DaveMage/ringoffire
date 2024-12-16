@@ -43,3 +43,8 @@ Thumbs.db
 
 #Markdown
 /markdown
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

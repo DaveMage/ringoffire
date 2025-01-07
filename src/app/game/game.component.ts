@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common'; // test
 import { Game } from '../../models/game'; // import game.ts
 import { PlayerComponent } from '../player/player.component';
@@ -7,6 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { GameInfoComponent } from "../game-info/game-info.component";
+import { Observable } from 'rxjs';
+import { Firestore, collection, collectionData, addDoc } from '@angular/fire/firestore';
 
 
 @Component({
@@ -29,14 +31,34 @@ export class GameComponent {
   currentCard: string = '';
   game: Game = new Game(); // Definitive Zuweisung, da wir das Objekt in ngOnInit() initialisieren
 
-  constructor(public dialog: MatDialog) { }
+  firestore: Firestore = inject(Firestore);
+  items$: Observable<any[]>;
+
+  constructor(public dialog: MatDialog) {
+    const aCollection = collection(this.firestore, 'items')
+    this.items$ = collectionData(aCollection);
+  }
 
   ngOnInit(): void {
-    // this.newGame(); // this.newGame() wird aufgerufen, sobald die Komponente erstellt wird.
+    console.log('ngOnInit called');
+    this.newGame(); // this.newGame() wird aufgerufen, sobald die Komponente erstellt wird.
+
+    // Firebase-Daten abrufen und in der Konsole ausgeben
+    const aCollection = collection(this.firestore, 'games');
+    collectionData(aCollection).subscribe(data => {
+      console.log('Game update:', data);
+    });
   }
 
   newGame() {
+    console.log('newGame called');
     this.game = new Game();   // mit dieser Variablen erstellen wir ein neues objekt von der Klasse, die wir eben angelegt haben (game.ts). Es wird ein leeres Json onjekt mit all den eigenschafften erstellt.
+  
+
+
+        // Neues Objekt in Firestore hinzufügen
+        const gamesCollection = collection(this.firestore, 'games');
+        addDoc(gamesCollection, { ...this.game });
   }
 
   takeCard() {

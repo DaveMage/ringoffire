@@ -9,6 +9,8 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 import { GameInfoComponent } from "../game-info/game-info.component";
 import { Observable } from 'rxjs';
 import { Firestore, collection, collectionData, addDoc } from '@angular/fire/firestore';
+import { FirestoreService } from '../services/firestore.services'; // import firestore.services.ts
+import { ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -30,42 +32,34 @@ export class GameComponent {
   pickCardAnimation = false;
   currentCard: string = '';
   game: Game = new Game(); // Definitive Zuweisung, da wir das Objekt in ngOnInit() initialisieren
+  gameId: string | undefined;
 
-  firestore: Firestore = inject(Firestore);
-  items$: Observable<any[]>;
-
-  constructor(public dialog: MatDialog) {
-    const aCollection = collection(this.firestore, 'items')
-    this.items$ = collectionData(aCollection);
+  constructor(private route: ActivatedRoute, public dialog: MatDialog, private firestoreService: FirestoreService) {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit called');
-    this.newGame(); // this.newGame() wird aufgerufen, sobald die Komponente erstellt wird.
+    this.newGame();
+    this.route.params.subscribe(params => {
+      console.log(params['id']); // gibt die Parameter in der Konsole aus.
+      this.gameId = params['id'];
 
-    // Firebase-Daten abrufen und in der Konsole ausgeben
-    const aCollection = collection(this.firestore, 'games');
-    collectionData(aCollection).subscribe(data => {
-      console.log('Game update:', data);
+      this.firestoreService.getGames().subscribe(games => {
+        console.log("Aktuelle Spiele: ", games);
+      });
     });
+
   }
 
   newGame() {
-    console.log('newGame called');
-    this.game = new Game();   // mit dieser Variablen erstellen wir ein neues objekt von der Klasse, die wir eben angelegt haben (game.ts). Es wird ein leeres Json onjekt mit all den eigenschafften erstellt.
-  
-
-
-        // Neues Objekt in Firestore hinzufügen
-        const gamesCollection = collection(this.firestore, 'games');
-        addDoc(gamesCollection, { ...this.game });
+    this.game = new Game();
+    // this.firestoreService.addGame(this.game.toJson()); // this.game
   }
 
   takeCard() {
     if (!this.pickCardAnimation) {
       const card = this.game.stack.pop();
       this.currentCard = card !== undefined ? card : ''; // Fallback-Wert
-      // this.currentCard = this.game.stack.pop(); // pop() entfernt das letzte Element aus dem Array und gibt es zurück.
+
       console.log(this.currentCard); // gibt die Karte in der Konsole aus.
       this.pickCardAnimation = true;
       console.log(this.game);   // gibt das leere Json objekt in der Konsole aus.

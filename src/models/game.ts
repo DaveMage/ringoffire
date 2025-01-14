@@ -5,7 +5,7 @@ export class Game {
     public currentPlayer: number = 0;
 
     constructor() {         // consturctor ist eine Methode/Funktion, die aufgerufen wird, sobald ein Objekt von der Klasse erstellt wird.
-        for(let i = 1; i < 14; i++) {
+        for (let i = 1; i < 14; i++) {
             this.stack.push('ace_' + i); // fügt die Karten dem Stack hinzu
             this.stack.push('clubs_' + i);
             this.stack.push('diamonds_' + i);
@@ -13,22 +13,40 @@ export class Game {
         }
 
         shuffle(this.stack);
-        
+
     }
+
+    public toJson(): GameData {
+        return {
+            players: this.players,
+            stack: this.stack,
+            playedCards: this.playedCards,
+            currentPlayer: this.currentPlayer
+        }
+    }
+
+
+}
+
+export interface GameData {
+    players: string[];
+    stack: string[];
+    playedCards: string[];
+    currentPlayer: number;
 }
 
 function shuffle(array: string[]) {       // Wichtig ist, Sie muss außerhalb von unserem Objekt sein.
     let currentIndex = array.length;
-  
+
     // While there remain elements to shuffle...
     while (currentIndex != 0) {
-  
-      // Pick a remaining element...
-      let randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
+
+        // Pick a remaining element...
+        let randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
     }
-  }
+}

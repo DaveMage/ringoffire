@@ -10,19 +10,11 @@ import { FirestoreService } from '../app/services/firestore.services';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, MatButtonModule, AsyncPipe],
+  imports: [RouterOutlet, CommonModule, MatButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'ringoffire';
-  games$!: Observable<any[]>;
-  firestoreService: FirestoreService = inject(FirestoreService);
-
-  constructor() { }
-
-  ngOnInit(): void {
-    this.games$ = this.firestoreService.getGames();
-  }
 }

@@ -28,10 +28,7 @@ export class GameInfoComponent implements OnInit, OnChanges {
 
   titel = '';
   description = '';
-
   @Input() card: string = ''; // musste undefined hinzufügen, da es sonst einen fehler gibt, weil am anfang kein wert (Karte) vorhanden ist.
-
-  constructor() { }
 
   ngOnInit(): void {    // void bedeutet etwas ausführt und nix zurück gibt
 

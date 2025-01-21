@@ -1,10 +1,10 @@
 export class Game {
-    public players: string[] = [];
+    public players: string[] = [];      // mit public sind sie außerhalb der Klasse sichtbar. ansonsten nur innerhalb der Klasse.
     public stack: string[] = [];
     public playedCards: string[] = [];
     public currentPlayer: number = 0;
-    // public pickCardAnimation = false;
-    // public currentCard: string = '';
+    public pickCardAnimation = false;
+    public currentCard: string = '';
 
     constructor() {         // consturctor ist eine Methode/Funktion, die aufgerufen wird, sobald ein Objekt von der Klasse erstellt wird.
         for (let i = 1; i < 14; i++) {
@@ -21,9 +21,9 @@ export class Game {
             players: this.players,
             stack: this.stack,
             playedCards: this.playedCards,
-            currentPlayer: this.currentPlayer
-            // pickCardAnimation: this.pickCardAnimation,
-            // currentCard: this.currentCard
+            currentPlayer: this.currentPlayer,
+            pickCardAnimation: this.pickCardAnimation,
+            currentCard: this.currentCard
         }
     }
 }

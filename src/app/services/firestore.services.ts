@@ -15,7 +15,7 @@ export class FirestoreService {
     constructor() { }
 
     ngOnDestroy() {
-        this.unsubGame();
+        // this.unsubGame();
     }
 
     newGame() {
@@ -37,8 +37,8 @@ export class FirestoreService {
             game.stack = data['stack'];
             game.playedCards = data['playedCards'];
             game.currentPlayer = data['currentPlayer'];
-            // game.pickCardAnimation = data['pickCardAnimation']; // nicht vorhanden
-            // game.currentCard = data['currentCard'];
+            game.pickCardAnimation = data['pickCardAnimation']; // nicht vorhanden
+            game.currentCard = data['currentCard'];
             /* console.log("readGame() ID: ", doc.id);
             console.log("currentPlayer: ", game.currentPlayer); */
         });
